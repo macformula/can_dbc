@@ -1,0 +1,6 @@
+*.ini
+*_cache.mat
+*_log.html
+.ipynb_checkpoints
+.vscode
+canalgen/outputs
