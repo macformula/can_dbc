@@ -127,7 +127,6 @@ typedef struct ${message.name} {\
 /*********************************************************
 *                       SIGNAL MACROS
 *********************************************************/
-
 %for message in can_db.messages:
 <% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
 // Message: ${message.name}
@@ -145,7 +144,6 @@ typedef struct ${message.name} {\
 /*********************************************************
 *                 GLOBAL STRUCT DECLARATIONS
 *********************************************************/
-
 %for message in can_db.messages:
 <% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
 extern volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name};
@@ -154,7 +152,6 @@ extern volatile Ts${message.name}${" " * (msg_space - len(message.name))}${messa
 /*********************************************************
 *               PUBLIC FUNCTION DECLARATIONS
 *********************************************************/
-
 %for message in can_db.messages:
 <% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
 void Print_${message.name}(void);

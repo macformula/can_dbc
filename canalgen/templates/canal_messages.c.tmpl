@@ -94,7 +94,6 @@ __data__))
 /*********************************************************
 *                 GLOBAL STRUCT DEFINITIONS
 *********************************************************/
-
 %for message in can_db.messages:
 <% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
 volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name};
@@ -103,7 +102,6 @@ volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name
 /*********************************************************
  *                    HELPER FUNCTIONS
  *********************************************************/
-
 static uint64_t getDataWordFromByteArray(uint8_t* rawData) {
 	uint64_t ret = 0;
 
@@ -138,7 +136,6 @@ static uint64_t shift_endianness(uint64_t val, uint8_t num_bits) {
 /*********************************************************
  *                    CAN FUNCTIONS
  *********************************************************/
- 
 % for message in can_db.messages:
 <% if not (node.name in message.receivers): continue %>\
 TeCanALRet Unmarshal_${message.name}(uint8_t *RxData) {
@@ -227,7 +224,6 @@ TeCanALRet Marshal_${message.name}(uint8_t *TxData) {
 /*********************************************************
  *               FUNCTION POINTER TABLE
  *********************************************************/
-
 static const struct {
 	TeMessageID ID;
 	BinaryUnmarshaller *Unmarshal;
@@ -262,8 +258,7 @@ static const struct {
 /*********************************************************
  *           FUNCTION POINTER TABLE GETTERS
  *********************************************************/
-
- static TeCanALRet getBinaryUnmarshaller(uint32_t *ID, BinaryUnmarshaller **pUnmarshal) {
+static TeCanALRet getBinaryUnmarshaller(uint32_t *ID, BinaryUnmarshaller **pUnmarshal) {
 	for (int i = 0; i < NUM_RX_MESSAGES; i++) {
 		if ((*ID) == CANAL_RX_MESSAGE_TABLE[i].ID) {
 			*pUnmarshal = CANAL_RX_MESSAGE_TABLE[i].Unmarshal;
@@ -290,7 +285,6 @@ static TeCanALRet getBinaryMarshaller(TeMessageID *ID, BinaryMarshaller **pMarsh
 /*********************************************************
  *             PUBLIC FUNCTION DEFINITIONS
  *********************************************************/
- 
 % for message in can_db.messages:
 <% if not (node.name in message.senders or node.name in message.receivers): continue %>\
 void Print_${message.name}() {

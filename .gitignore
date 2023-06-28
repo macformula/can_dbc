@@ -3,4 +3,4 @@
 *_log.html
 .ipynb_checkpoints
 .vscode
-canalgen/outputs
+canalgen/generated
