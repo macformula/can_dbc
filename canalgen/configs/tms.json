@@ -1,13 +1,12 @@
 {
-  "NODE": "BMS",
-  "IGNORED_FILES": [
+  "NODE": "TMS",
+  "IGNORED_DBCS": [
     "CAN_AMKInverter.dbc",
-    "CAN_TMS.dbc"
+    "CAN_BMS.dbc"
   ],
   "DBC_PATH": "..\\dbcs",
   "TEMPLATE_LOCATION": "templates",
   "OUTPUT_LOCATION": "generated",
   "MOVE_TO_LOCATION": "..\\dbcs\\generated",
-  "MIGRATED_FILE_NAMES": "canal_messages_new",
   "MIGRATE_FILES": true
 }

@@ -2,6 +2,7 @@ import cantools
 import math
 import os
 import json
+import shutil
 from pathlib import Path
 from argparse import ArgumentParser
 from sys import stderr, exit
@@ -9,32 +10,14 @@ from os import mkdir
 from os.path import normpath, basename
 from mako.template import Template
 
-def load_constants(filename):
-    with open(filename, "r") as file:
-        constants_data = json.load(file)
-    return constants_data
-
-json_file = "config.json"
-
-# Load the constants from the JSON file
-constants = load_constants(json_file)
-
-class node:
+class Node:
     def __init__(self, name):
         self.name = name.upper()
-        
-node = node(constants["NODE"])
 
-move_to_dest_path  = constants["MIGRATE_FILES"]
-if move_to_dest_path:
-    # Where the files are taken from
-    base_src_path_c = constants["OUTPUT_LOCATION"]
-    base_src_path_h = constants["OUTPUT_LOCATION"]
-
-    # Where the files are going
-    base_dst_path_c = constants["MOVE_TO_LOCATION"]
-    base_dst_path_h = constants["MOVE_TO_LOCATION"]
-
+def load_configs(filename):
+    with open(filename, "r") as file:
+        configs = json.load(file)
+    return configs
 
 def parse_dbc_files(dbc_path, skip_files, verbose=False):
     can_db = cantools.database.Database()
@@ -59,11 +42,6 @@ def parse_dbc_files(dbc_path, skip_files, verbose=False):
             can_db.add_dbc(fin)
     
     return can_db
-
-dbc_path = constants["DBC_PATH"]
-skip_files = constants["IGNORED_FILES"]
-
-can_db = parse_dbc_files(dbc_path, skip_files, verbose=True)
 
 def get_signal_types(can_db):
     sig_types = {}
@@ -103,8 +81,6 @@ def get_signal_types(can_db):
                 
     return sig_types
 
-sig_types = get_signal_types(can_db)
-
 def template_render(tmpl_dir, out_dir, tmpl_files, can_db, node, sig_types_dict):
     try:
         for template in tmpl_files:
@@ -137,34 +113,56 @@ def template_render(tmpl_dir, out_dir, tmpl_files, can_db, node, sig_types_dict)
         print(f"{e} : {Path(args.can_tmpl_fp).resolve()}")
         print(can_descriptor.ecu_name)
 
-tmpl_dir = constants["TEMPLATE_LOCATION"]
-out_dir = constants["OUTPUT_LOCATION"]
-tmpl_files = ["canal_messages.c.tmpl", "canal_messages.h.tmpl"]
+def move_files(move_to_dest_path, base_src_path_c, base_src_path_h, base_dst_path_c, base_dst_path_h):
+    if move_to_dest_path:
+        # Make full path to allow overwritting
+        full_src_path_c = fr"{base_src_path_c}\canal_messages.c"
+        full_dst_path_c = fr"{base_dst_path_c}\canal_messages.c"
+        full_src_path_h = fr"{base_src_path_h}\canal_messages.h"
+        full_dst_path_h = fr"{base_dst_path_h}\canal_messages.h"
 
-template_render(tmpl_dir, out_dir, tmpl_files, can_db, node, sig_types)
+    try:
+        # Extract the destination directory path from the destination file
+        dest_dir = os.path.dirname(full_dst_path_c)
 
-import shutil
+        # Create the destination directory if it doesn't exist
+        if not os.path.exists(dest_dir):
+            os.makedirs(dest_dir)
 
-if move_to_dest_path:
-    # Make full path to allow overwritting
-    full_src_path_c = fr"{base_src_path_c}\canal_messages.c"
-    full_dst_path_c = fr"{base_dst_path_c}\{constants['MIGRATED_FILE_NAMES']}.c"
-    full_src_path_h = fr"{base_src_path_h}\canal_messages.h"
-    full_dst_path_h = fr"{base_dst_path_h}\{constants['MIGRATED_FILE_NAMES']}.h"
+        # Copy the file to the destination
+        shutil.copy(full_src_path_c, full_dst_path_c)
+        shutil.copy(full_src_path_h, full_dst_path_h)
+        print(fr"Copied {full_src_path_c} --> {full_dst_path_c}")
+        print(fr"Copied {full_src_path_h} --> {full_dst_path_h}")
+    except Exception as e:
+        print(f"Error: {e}")
 
-try:
-    # Extract the destination directory path from the destination file
-    dest_dir = os.path.dirname(full_dst_path_c)
+def main():
+    json_file = "configs/tms.json"
 
-    # Create the destination directory if it doesn't exist
-    if not os.path.exists(dest_dir):
-        os.makedirs(dest_dir)
+    # Load the constants from the JSON file
+    configs = load_configs(json_file)
+    node = Node(configs["NODE"])
 
-    # Copy the file to the destination
-    shutil.copy(full_src_path_c, full_dst_path_c)
-    shutil.copy(full_src_path_h, full_dst_path_h)
-    print(fr"Copied {full_src_path_c} --> {full_dst_path_c}")
-    print(fr"Copied {full_src_path_h} --> {full_dst_path_h}")
-except Exception as e:
-    print(f"Error: {e}")
+    dbc_path = configs["DBC_PATH"]
+    skip_files = configs["IGNORED_DBCS"]
 
+    can_db = parse_dbc_files(dbc_path, skip_files, verbose=True)
+    sig_types = get_signal_types(can_db)
+    
+    tmpl_dir = configs["TEMPLATE_LOCATION"]
+    out_dir = configs["OUTPUT_LOCATION"]
+    tmpl_files = ["canal_messages.c.tmpl", "canal_messages.h.tmpl"]
+    template_render(tmpl_dir, out_dir, tmpl_files, can_db, node, sig_types)
+
+    move_to_dest_path = configs["MIGRATE_FILES"]
+    # Where the files are taken from
+    base_src_path_c = configs["OUTPUT_LOCATION"]
+    base_src_path_h = configs["OUTPUT_LOCATION"]
+    # Where the files are going
+    base_dst_path_c = configs["MOVE_TO_LOCATION"]
+    base_dst_path_h = configs["MOVE_TO_LOCATION"]
+    move_files(move_to_dest_path, base_src_path_c, base_src_path_h, base_dst_path_c, base_dst_path_h)
+
+if __name__ == "__main__":
+    main()
