@@ -4,6 +4,6 @@ Resolves
 
 > Brief explanation of what you did and why
 
-### How to Tophat?
+### How to Test?
 
 > How can people test this?
