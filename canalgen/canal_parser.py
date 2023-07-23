@@ -3,6 +3,7 @@ import math
 import os
 import json
 import shutil
+import click
 from pathlib import Path
 from argparse import ArgumentParser
 from sys import stderr, exit
@@ -137,8 +138,11 @@ def move_files(move_to_dest_path, base_src_path_c, base_src_path_h, base_dst_pat
     except Exception as e:
         print(f"Error: {e}")
 
-def main():
-    json_file = "configs/tms.json"
+@click.command()
+@click.option("--config", type=click.Path(exists=True, dir_okay=False), default="./configs/tms.json", help='The relative location to the config file.')
+def main(config):
+    """Script that generated CAN messages."""
+    json_file = config
 
     # Load the constants from the JSON file
     configs = load_configs(json_file)
