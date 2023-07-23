@@ -1,12 +1,9 @@
 {
   "NODE": "TMS",
-  "IGNORED_DBCS": [
-    "CAN_AMKInverter.dbc",
-    "CAN_BMS.dbc"
-  ],
+  "IGNORED_DBCS": [],
   "DBC_PATH": "..\\dbcs",
   "TEMPLATE_LOCATION": "templates",
   "OUTPUT_LOCATION": "generated",
-  "MOVE_TO_LOCATION": "..\\dbcs\\generated",
+  "MOVE_TO_LOCATION": "generated",
   "MIGRATE_FILES": true
 }

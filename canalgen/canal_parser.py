@@ -135,8 +135,10 @@ def move_files(move_to_dest_path, base_src_path_c, base_src_path_h, base_dst_pat
         shutil.copy(full_src_path_h, full_dst_path_h)
         print(fr"Copied {full_src_path_c} --> {full_dst_path_c}")
         print(fr"Copied {full_src_path_h} --> {full_dst_path_h}")
+    except shutil.SameFileError as e:
+        print("You are moving the files to the exact same location. Doing nothing...")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e} {e.__class__}")
 
 @click.command()
 @click.option("--config", type=click.Path(exists=True, dir_okay=False), default="./configs/tms.json", help='The relative location to the config file.')
