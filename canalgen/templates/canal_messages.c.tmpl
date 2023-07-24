@@ -92,13 +92,28 @@ __data__))
 
     
 /*********************************************************
-*                 GLOBAL STRUCT DEFINITIONS
+*                 PRIVATE STRUCT DEFINITIONS
 *********************************************************/
 %for message in can_db.messages:
 <% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
-volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name};
+static volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name};
 %endfor
 
+/*********************************************************
+*                    ACCESSOR FUNCTIONS
+*********************************************************/
+%for message in can_db.messages:
+<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
+// Message: ${message.name}
+Ts${message.name} get${message.name}() {
+	return ${message.name};
+}
+
+void set${message.name}(Ts${message.name} newValue) {
+	${message.name} = newValue;
+}
+
+%endfor
 /*********************************************************
  *                    HELPER FUNCTIONS
  *********************************************************/

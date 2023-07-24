@@ -142,14 +142,6 @@ typedef struct ${message.name} {\
 %endfor
 
 /*********************************************************
-*                 GLOBAL STRUCT DECLARATIONS
-*********************************************************/
-%for message in can_db.messages:
-<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
-extern volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name};
-%endfor
-
-/*********************************************************
 *               PUBLIC FUNCTION DECLARATIONS
 *********************************************************/
 %for message in can_db.messages:
