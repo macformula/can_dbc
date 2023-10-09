@@ -162,13 +162,14 @@ def main(config):
     template_render(tmpl_dir, out_dir, tmpl_files, can_db, node, sig_types)
 
     move_to_dest_path = configs["MIGRATE_FILES"]
-    # Where the files are taken from
-    base_src_path_c = configs["OUTPUT_LOCATION"]
-    base_src_path_h = configs["OUTPUT_LOCATION"]
-    # Where the files are going
-    base_dst_path_c = configs["MOVE_TO_LOCATION"]
-    base_dst_path_h = configs["MOVE_TO_LOCATION"]
-    move_files(move_to_dest_path, base_src_path_c, base_src_path_h, base_dst_path_c, base_dst_path_h)
+    if move_to_dest_path == True:
+        # Where the files are taken from
+        base_src_path_c = configs["OUTPUT_LOCATION"]
+        base_src_path_h = configs["OUTPUT_LOCATION"]
+        # Where the files are going
+        base_dst_path_c = configs["MOVE_TO_LOCATION"]
+        base_dst_path_h = configs["MOVE_TO_LOCATION"]
+        move_files(move_to_dest_path, base_src_path_c, base_src_path_h, base_dst_path_c, base_dst_path_h)
 
 if __name__ == "__main__":
     main()

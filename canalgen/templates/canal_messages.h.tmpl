@@ -149,6 +149,16 @@ typedef struct ${message.name} {\
 void Print_${message.name}(void);
 %endfor
 
+%for message in can_db.messages:
+<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
+TeCanALRet Set${message.name}(Ts${message.name} newValue);
+%endfor
+
+%for message in can_db.messages:
+<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
+Ts${message.name} Get${message.name}();
+%endfor
+
 TeCanALRet Print_Message(uint32_t *ID);
 TeCanALRet GetTxDataLength(TeMessageID *ID, uint32_t *dlc);
 TeCanALRet MarshalBinary(TeMessageID *ID, uint8_t* rawData);
