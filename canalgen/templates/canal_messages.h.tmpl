@@ -142,19 +142,21 @@ typedef struct ${message.name} {\
 %endfor
 
 /*********************************************************
-*                 GLOBAL STRUCT DECLARATIONS
-*********************************************************/
-%for message in can_db.messages:
-<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
-extern volatile Ts${message.name}${" " * (msg_space - len(message.name))}${message.name};
-%endfor
-
-/*********************************************************
 *               PUBLIC FUNCTION DECLARATIONS
 *********************************************************/
 %for message in can_db.messages:
 <% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
 void Print_${message.name}(void);
+%endfor
+
+%for message in can_db.messages:
+<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
+TeCanALRet Set${message.name}(Ts${message.name} newValue);
+%endfor
+
+%for message in can_db.messages:
+<% if not ((node.name in message.receivers) or (node.name in message.senders)): continue %>\
+Ts${message.name} Get${message.name}();
 %endfor
 
 TeCanALRet Print_Message(uint32_t *ID);
