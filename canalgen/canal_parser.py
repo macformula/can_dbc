@@ -160,6 +160,7 @@ def main(config):
     skip_files = configs["IGNORED_DBCS"]
 
     can_db = parse_dbc_files(dbc_path, skip_files, verbose=True)
+    check_factor(can_db)
     sig_types = get_signal_types(can_db)
     
     tmpl_dir = configs["TEMPLATE_LOCATION"]
