@@ -33,26 +33,8 @@ NS_ :
 
 BS_:
 
-BU_: PC_SG BMS FC TMS
-VAL_TABLE_ gov_e_sts 7 "motor_run_error" 6 "hv_run_error" 5 "driver_interface_error" 4 "motor_startup_error" 3 "hv_startup_error" 2 "gov_running" 1 "gov_startup" 0 "gov_init" ;
+BU_: BMS FC
 
-
-BO_ 255 VC_Status: 8 PC_SG
- SG_ VC_govStatus : 7|8@0+ (1,0) [0|255] ""  FC
-
-BO_ 511 FC_msg: 8 Vector__XXX
- SG_ FC_hvilSts : 59|1@0+ (1,0) [0|1] "" Vector__XXX
- SG_ FC_userBtnL : 58|1@0+ (1,0) [0|1] "" Vector__XXX
- SG_ FC_userBtnR : 57|1@0+ (1,0) [0|1] "" Vector__XXX
- SG_ FC_steeringAngle : 55|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ FC_bpps : 39|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ FC_apps2 : 23|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ FC_apps1 : 7|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ FC_ready2DriveBtn_n : 56|1@0+ (1,0) [0|1] "" Vector__XXX
-
-BO_ 256 FC_cmd: 8 PC_SG
- SG_ FC_ready2DriveSpkr : 0|1@0+ (1,0) [0|1] ""  FC
- SG_ FC_brakeLight : 1|1@0+ (1,0) [0|1] ""  FC
 
 BO_ 1570 Contactor_States: 3 FC
  SG_ Pack_Positive : 0|8@1+ (1,0) [0|0] ""  BMS
@@ -73,10 +55,11 @@ BO_ 1573 Pack_SOC: 3 BMS
  SG_ Pack_SOC : 0|8@1+ (0.5,0) [0|0] "Percent"  FC
  SG_ Maximum_Pack_Voltage : 8|16@1+ (0.1,0) [0|0] "Volts"  FC
 
-BO_ 1574 Contactor_Feedback: 3 BMS
- SG_ Pack_Precharge_Feedback : 16|1@1+ (1,0) [0|1] ""  FC
- SG_ Pack_Negative_Feedback : 8|1@1+ (1,0) [0|1] ""  FC
- SG_ Pack_Positive_Feedback : 0|1@1+ (1,0) [0|1] ""  FC
+BO_ 1574 Contactor_Feedback: 1 BMS
+ SG_ Pack_Precharge_Feedback : 0|1@1+ (1,0) [0|1] ""  FC
+ SG_ Pack_Negative_Feedback : 1|1@1+ (1,0) [0|1] ""  FC
+ SG_ Pack_Positive_Feedback : 2|1@1+ (1,0) [0|1] ""  FC
+ 
 
 BO_ 2553934720 BMSBroadcast: 8 TMS
  SG_ ThermModuleNum : 0|8@1+ (1,0) [0|0] "" BMS
@@ -96,6 +79,9 @@ BO_ 2566844926 ThermistorBroadcast: 8 TMS
  SG_ HighThermValue : 40|8@1- (1,0) [0|0] " C" BMS
  SG_ HighThermID : 48|8@1+ (1,0) [0|0] "" BMS
  SG_ LowThermID : 56|8@1+ (1,0) [0|0] "" BMS
+
+BO_ 147 Test_msg: 8 Vector__XXX
+ SG_ sig1 : 8|4@0+ (0,0) [0|0] "" Vector__XXX
 	
 CM_ BO_ 1572 "This ID Transmits at 8 ms.";
 CM_ BO_ 1571 "This ID Transmits at 8 ms.";
@@ -105,9 +91,4 @@ CM_ BO_ 2553934720 "Thermistor Module - BMS Broadcast";
 CM_ SG_ 2553934720 ThermModuleNum "Thermistor Module Number";
 CM_ BO_ 2566844926 "Thermistor General Broadcast";
 CM_ SG_ 2566844926 RelThermID "Thermistor ID relative to all configured Thermistor Modules";
-BA_DEF_  "BusType" STRING ;
-BA_DEF_  "MultiplexExtEnabled" ENUM  "No","Yes";
-BA_DEF_DEF_  "BusType" "CAN";
-BA_DEF_DEF_  "MultiplexExtEnabled" "No";
-VAL_ 255 VC_govStatus 7 "motor_run_error" 6 "hv_run_error" 5 "driver_interface_error" 4 "motor_startup_error" 3 "hv_startup_error" 2 "gov_running" 1 "gov_startup" 0 "gov_init" ;
 
