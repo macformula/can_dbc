@@ -82,6 +82,12 @@ def get_signal_types(can_db):
                 
     return sig_types
 
+def check_factor(can_db):
+    for message in can_db.messages:
+        for signal in message.signals:
+            if signal.scale == 0:
+                raise ValueError("Factor is set to 0 for signal", signal.name)
+
 def template_render(tmpl_dir, out_dir, tmpl_files, can_db, node, sig_types_dict):
     try:
         for template in tmpl_files:
@@ -154,6 +160,7 @@ def main(config):
     skip_files = configs["IGNORED_DBCS"]
 
     can_db = parse_dbc_files(dbc_path, skip_files, verbose=True)
+    check_factor(can_db)
     sig_types = get_signal_types(can_db)
     
     tmpl_dir = configs["TEMPLATE_LOCATION"]
