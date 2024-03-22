@@ -47,10 +47,10 @@ BO_ 511 FC_msg: 8 FC
  SG_ FC_bpps : 32|12@1+ (1,0) [0|4095] ""  PC_SG
  SG_ FC_apps2 : 16|12@1+ (1,0) [0|4095] ""  PC_SG
  SG_ FC_apps1 : 0|12@1+ (1,0) [0|4095] ""  PC_SG
- SG_ FC_ready2DriveBtn_n : 63|1@1+ (1,0) [0|1] ""  PC_SG
+ SG_ FC_readyToDriveBtn_n : 63|1@1+ (1,0) [0|1] ""  PC_SG
 
 BO_ 256 FC_cmd: 8 PC_SG
- SG_ FC_ready2DriveSpkr : 1|1@1+ (1,0) [0|1] ""  FC
+ SG_ FC_readyToDriveSpkr : 1|1@1+ (1,0) [0|1] ""  FC
  SG_ FC_brakeLight : 0|1@1+ (1,0) [0|1] ""  FC
 
 BO_ 1570 Contactor_States: 3 FC
