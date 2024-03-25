@@ -36,18 +36,20 @@ BS_:
 BU_: PC_SG BMS FC TMS CANmod
 
 
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ FC_userBtnL : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FC_userBtnR : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
 BO_ 255 VC_Status: 8 PC_SG
  SG_ VC_govStatus : 0|3@1+ (1,0) [0|7] ""  FC
 
 BO_ 511 FC_msg: 8 FC
  SG_ FC_hvilSts : 60|1@1+ (1,0) [0|1] ""  PC_SG
- SG_ FC_userBtnL : 61|1@1+ (1,0) [0|1] ""  PC_SG
- SG_ FC_userBtnR : 62|1@1+ (1,0) [0|1] ""  PC_SG
  SG_ FC_steeringAngle : 48|12@1+ (1,0) [0|4095] ""  PC_SG
  SG_ FC_bpps : 32|12@1+ (1,0) [0|4095] ""  PC_SG
  SG_ FC_apps2 : 16|12@1+ (1,0) [0|4095] ""  PC_SG
  SG_ FC_apps1 : 0|12@1+ (1,0) [0|4095] ""  PC_SG
- SG_ FC_readyToDriveBtn_n : 63|1@1+ (1,0) [0|1] ""  PC_SG
+ SG_ FC_readyToDriveBtn_n : 61|1@1+ (1,0) [0|1] ""  PC_SG
 
 BO_ 256 FC_cmd: 8 PC_SG
  SG_ FC_readyToDriveSpkr : 1|1@1+ (1,0) [0|1] ""  FC
@@ -155,6 +157,7 @@ BO_ 777 GnssImu: 8 CANmod
 
 
 
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
 CM_ BO_ 1572 "This ID Transmits at 8 ms.";
 CM_ BO_ 1571 "This ID Transmits at 8 ms.";
 CM_ BO_ 1573 "This ID Transmits at 8 ms.";
