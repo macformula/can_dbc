@@ -40,6 +40,9 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ FC_userBtnL : 0|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ FC_userBtnR : 0|1@1+ (1,0) [0|1] "" Vector__XXX
 
+BO_ 0 InverterEn: 1 FC
+ SG_ MI_InverterEn : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
 BO_ 255 VC_Status: 8 PC_SG
  SG_ VC_govStatus : 0|3@1+ (1,0) [0|7] ""  FC
 
